@@ -2,7 +2,6 @@ name: Python CI
 
 on:
   push:             # Run on all pushes to any branch
-  pull_request:     # Run on all pull requests to any branch
 
 jobs:
   test:
