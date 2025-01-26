@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "trainingcalc"
+description = "A training project for learning Python with a command-line calculator."
+readme = "README.md"
+authors = [
+    { name = "Your Name", email = "your.email@example.com" }
+]
+keywords = ["calculator", "training", "python", "learning"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dynamic = ["version"]
+dependencies = []
+
+[tool.setuptools.dynamic]
+version = {attr = "trainingcalc.__version__"}
+
+[project.optional-dependencies]
+dev = [
+    "pytest",  # For testing
+    "pytest-cov",  # For test coverage
+    "black",  # For code formatting
+    "flake8",  # For linting
+    "fastapi",  # For REST API
+    "uvicorn",  # For REST API
+    "python-multipart",  # For REST API
+    "jinja2",  # For HTML,
+    "httpx"  # For testing
+]
+
+[tool.black]
+line-length = 88
+target-version = ["py38", "py39", "py310", "py311"]
+
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v"
+
+[project.scripts]
+trainingcalc = "trainingcalc.__main__:trainingcalc_entry_point"

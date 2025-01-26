@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrainingCalc</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>TrainingCalc</h1>
+        <form id="calculator-form">
+            <label for="a">Number 1:</label>
+            <input type="number" id="a" name="a" step="any" required>
+
+            <label for="operation">Operation:</label>
+            <select id="operation" name="operation" required>
+                <option value="+">Addition (+)</option>
+                <option value="-">Subtraction (-)</option>
+                <option value="*">Multiplication (*)</option>
+                <option value="/">Division (/)</option>
+            </select>
+
+            <label for="b">Number 2:</label>
+            <input type="number" id="b" name="b" step="any" required>
+
+            <button type="submit">Calculate</button>
+        </form>
+
+        <div id="result" class="result"></div>
+        <div id="error" class="error"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById("calculator-form");
+        const resultDiv = document.getElementById("result");
+        const errorDiv = document.getElementById("error");
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault(); // Prevent the form from reloading the page
+
+            // Clear previous results or errors
+            resultDiv.textContent = "";
+            errorDiv.textContent = "";
+
+            // Gather form data
+            const a = document.getElementById("a").value;
+            const b = document.getElementById("b").value;
+            const operation = document.getElementById("operation").value;
+
+            try {
+                // Send the POST request to the API
+                const response = await fetch("/calculate", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ a: parseFloat(a), b: parseFloat(b), operation }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Display the result
+                    resultDiv.textContent = `Result: ${data.result}`;
+                } else {
+                    // Display the error
+                    errorDiv.textContent = `Error: ${data.detail}`;
+                }
+            } catch (err) {
+                errorDiv.textContent = `Error: ${err.message}`;
+            }
+        });
+    </script>
+</body>
+</html>
